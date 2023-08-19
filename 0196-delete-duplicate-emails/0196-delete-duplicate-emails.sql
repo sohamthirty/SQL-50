@@ -1,3 +1,12 @@
-DELETE A 
-FROM Person as A, Person as B 
-WHERE A.id > B.id AND A.email=B.email;
+DELETE 
+FROM Person
+WHERE Id NOT IN
+(
+  SELECT Id
+  FROM
+  (
+    SELECT MIN(id) as Id
+    FROM Person
+    GROUP BY Email
+  ) as P
+)
